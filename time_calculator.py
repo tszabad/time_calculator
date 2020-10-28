@@ -28,18 +28,27 @@ def add_time(start, duration, day=""):
 
     days = ["monday", "tuesday", "wednesday", 
             "thursday", "friday", "saturday", "sunday"]
+    
 
-    dur_days = (dur_hours *60 + dur_minutes)/60//24
+    dur_days = (dur_hours *60 + dur_minutes)/60/24
     print(dur_days)
     suffix = ""
-    future_hour = start_hour + dur_hours
+    
     future_minute = start_min + dur_minutes
+    future_hour = start_hour + dur_hours 
+    print(future_hour)
     
     
-    if future_hour > 24 and dur_days < 1:
+    if future_hour > 24 and dur_days <= 1:
         suffix= " (next day)"
     if dur_days > 1:
-        suffix = " (" + str(int(dur_days) + 1) + " days later)"
+        dayslater = int((future_hour + future_minute/60)//24)
+        suffix = " (" + str(dayslater) + " days later)"
+    postition = ""
+    futureday = ""
+    if day != "":
+        postition = days.index(day.lower())
+        futureday = " " + days[postition+dayslater].capitalize()
     
     if future_minute > 60:
         future_hour +=1
@@ -49,9 +58,9 @@ def add_time(start, duration, day=""):
     
     if newtime[1]<10:
         newtime[1] = "0" + str(newtime[1])
-    new_time = str(newtime[0]) + ':' + str(newtime[1]) + " " + newtime[2] + suffix
+    new_time = str(newtime[0]) + ':' + str(newtime[1]) + " " + newtime[2] + futureday + suffix
 
     print(new_time)
     return new_time
 
-add_time("11:40 AM", "0:25")
+add_time("2:59 AM", "24:00", "saturDay")
