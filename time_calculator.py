@@ -11,8 +11,13 @@ def to_am_pm(hours, minutes):
     day_time=""
     hours %=24
     if hours > 12:
-        hours %=12
+        hours -=12
         day_time = "PM"
+    elif hours == 12:
+        day_time = "PM"
+    elif hours ==0:
+        hours = 12
+        day_time = "AM"
     else:
         day_time = "AM"
     return [hours, minutes, day_time]
@@ -38,17 +43,16 @@ def add_time(start, duration, day=""):
     future_hour = start_hour + dur_hours 
     print(future_hour)
     
-    
+    dayslater = int((future_hour + future_minute/60)//24)
     if future_hour > 24 and dur_days <= 1:
         suffix= " (next day)"
     if dur_days > 1:
-        dayslater = int((future_hour + future_minute/60)//24)
         suffix = " (" + str(dayslater) + " days later)"
     postition = ""
     futureday = ""
     if day != "":
         postition = days.index(day.lower())
-        futureday = " " + days[postition+dayslater].capitalize()
+        futureday = ", " + days[(postition + dayslater)%7].capitalize()
     
     if future_minute > 60:
         future_hour +=1
@@ -63,4 +67,4 @@ def add_time(start, duration, day=""):
     print(new_time)
     return new_time
 
-add_time("2:59 AM", "24:00", "saturDay")
+add_time("11:40 AM", "0:25")
